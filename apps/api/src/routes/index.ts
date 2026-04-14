@@ -7,6 +7,7 @@ import supplierRoutes from './supplier.routes';
 import productRoutes from './product.routes';
 import stockRoutes from './stock.routes';
 import clientRoutes from './client.route';
+import invoiceRoutes from './invoice.routes';
 
 const router = Router();
 
@@ -29,5 +30,6 @@ router.use('/products', productRoutes);
 router.use('/suppliers', supplierRoutes);
 router.use('/stock', stockRoutes);
 router.use('/clients', clientRoutes);
+router.use('/invoices', invoiceRoutes);
 
 export default router;
