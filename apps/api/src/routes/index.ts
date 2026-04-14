@@ -6,6 +6,7 @@ import swaggerUi from 'swagger-ui-express';
 import supplierRoutes from './supplier.routes';
 import productRoutes from './product.routes';
 import stockRoutes from './stock.routes';
+import clientRoutes from './client.route';
 
 const router = Router();
 
@@ -27,5 +28,6 @@ router.use('/users', userRoutes);
 router.use('/products', productRoutes);
 router.use('/suppliers', supplierRoutes);
 router.use('/stock', stockRoutes);
+router.use('/clients', clientRoutes);
 
 export default router;
