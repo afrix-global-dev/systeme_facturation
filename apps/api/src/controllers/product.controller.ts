@@ -1,13 +1,21 @@
 import { Response } from 'express';
 import { AuthRequest } from '../middlewares/auth.middleware';
 import * as productService from '../services/product.service';
+import { Types } from 'mongoose';
 
 export const createProduct = async (req: AuthRequest, res: Response) => {
-  const productData = {
-    ...req.body,
-    createdBy: req.user?._id, // On lie automatiquement le créateur
-  };
-  const product = await productService.createProduct(productData);
+  // On récupère l'ID de l'utilisateur depuis le middleware de protection
+  const userId = req.user?._id;
+
+  if (!userId) {
+    res.status(401);
+    throw new Error('Utilisateur non authentifié');
+  }
+
+  const product = await productService.createProduct(
+    req.body,
+    userId as Types.ObjectId,
+  );
   res.status(201).json({ success: true, data: product });
 };
 

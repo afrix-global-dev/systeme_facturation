@@ -44,4 +44,19 @@ router.post(
  */
 router.get('/:productId', stockCtrl.getHistory);
 
+/**
+ * @swagger
+ * /stock/{id}:
+ *   put:
+ *     summary: Modifier un mouvement de stock (Recalcule automatiquement le stock du produit)
+ *     tags: [Stock]
+ *     security:
+ *       - bearerAuth: []
+ */
+router.put(
+  '/:id',
+  authorize(Role.SUPER_ADMIN, Role.ADMIN),
+  stockCtrl.updateMovement,
+);
+
 export default router;

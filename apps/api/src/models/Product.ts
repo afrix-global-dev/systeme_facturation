@@ -27,6 +27,10 @@ const ProductSchema = new Schema(
       type: Number,
       default: 0,
     },
+    minStockQuantity: {
+      type: Number,
+      default: 0,
+    },
     supplier: {
       type: Schema.Types.ObjectId,
       ref: 'Supplier',

@@ -43,3 +43,47 @@ export const getMovementsByProduct = async (productId: string) => {
     .populate('performedBy', 'name firstName')
     .sort({ createdAt: -1 });
 };
+
+/**
+ * Modifier un mouvement existant (Correction d'erreur)
+ */
+export const updateMovement = async (
+  movementId: string,
+  updateData: { quantity: number; reason?: string },
+) => {
+  const oldMovement = await StockMovement.findById(movementId);
+  if (!oldMovement) throw new Error('Mouvement introuvable');
+
+  const product = await Product.findById(oldMovement.product);
+  if (!product) throw new Error('Produit lié introuvable');
+
+  const isEntry = [
+    StockMovementType.IN_SUPPLY,
+    StockMovementType.IN_RETURN,
+  ].includes(oldMovement.type as StockMovementType);
+
+  // Calcul de la différence de quantité
+  const diff = updateData.quantity - oldMovement.quantity;
+
+  // Ajustement du stock du produit
+  if (isEntry) {
+    product.stockQuantity += diff;
+  } else {
+    product.stockQuantity -= diff;
+  }
+
+  if (product.stockQuantity < 0)
+    throw new Error('La modification entraînerait un stock négatif');
+
+  // Mise à jour du mouvement
+  oldMovement.quantity = updateData.quantity;
+  if (updateData.reason) oldMovement.reason = updateData.reason;
+  oldMovement.newStock =
+    oldMovement.previousStock +
+    (isEntry ? updateData.quantity : -updateData.quantity);
+
+  await oldMovement.save();
+  await product.save();
+
+  return oldMovement;
+};

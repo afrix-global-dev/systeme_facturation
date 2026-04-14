@@ -17,3 +17,15 @@ export const getHistory = async (req: AuthRequest, res: Response) => {
   );
   res.status(200).json({ success: true, data: history });
 };
+
+export const updateMovement = async (req: AuthRequest, res: Response) => {
+  const movement = await stockService.updateMovement(
+    req.params.id as string,
+    req.body,
+  );
+  res.status(200).json({
+    success: true,
+    message: 'Mouvement corrigé et stock produit synchronisé',
+    data: movement,
+  });
+};
