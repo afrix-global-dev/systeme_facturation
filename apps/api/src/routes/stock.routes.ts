@@ -9,7 +9,7 @@ router.use(protect);
 
 /**
  * @swagger
- * /stock:
+ * /stocks:
  *   post:
  *     summary: Enregistrer un mouvement de stock (Entrée/Sortie/Perte)
  *     tags: [Stock]
@@ -37,7 +37,7 @@ router.post(
 
 /**
  * @swagger
- * /stock/{productId}:
+ * /stocks/{productId}:
  *   get:
  *     summary: Historique des mouvements d'un produit
  *     tags: [Stock]
