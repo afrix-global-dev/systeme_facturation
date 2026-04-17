@@ -13,22 +13,36 @@ import {
   Package,
   Settings,
   LogOut,
-  ShoppingCart,
-  Truck,
   ArrowLeftRight,
   BarChart3,
+  CirclePile,
+  UsersRound,
+  IdCardLanyard,
 } from 'lucide-react';
 
 const navItems = [
-  { href: '/dashboard', label: 'Dashboard', icon: Home },
-  { href: '/dashboard/clients', label: 'Clients', icon: Users },
+  { href: '/', label: 'Dashboard', icon: Home },
+  { href: '/clients', label: 'Clients', icon: Users },
+  { href: '/fournisseurs', label: 'Fournisseurs', icon: IdCardLanyard },
+  { href: '/produit', label: 'Produits', icon: Package },
   { href: '/dashboard/factures', label: 'Factures', icon: FileText },
-  { href: '/dashboard/produits', label: 'Produits', icon: Package },
-  { href: '/dashboard/approvisionnement', label: 'Approvisionnement', icon: Truck },
-  { href: '/dashboard/ventes', label: 'Ventes', icon: ShoppingCart },
-  { href: '/dashboard/transactions', label: 'Stock', icon: ArrowLeftRight },
-  { href: '/dashboard/rapports', label: 'Rapports', icon: BarChart3 },
-  { href: '/dashboard/parametres', label: 'Paramètres', icon: Settings },
+  {
+    href: '/payements',
+    label: 'Payements',
+    icon: ArrowLeftRight,
+  },
+  {
+    href: '/dashboard/stock',
+    label: 'stock',
+    icon: CirclePile,
+  },
+  {
+    href: '/dashboard/utilisateurs',
+    label: 'Utilisateurs',
+    icon: UsersRound,
+  },
+  { href: '/dashboard/rapports', label: 'Rapport', icon: BarChart3 },
+  { href: '/dashboard/parametres', label: 'Parametres', icon: Settings },
 ];
 
 interface SidebarProps {
@@ -45,11 +59,31 @@ export default function Sidebar({ isExpanded }: SidebarProps) {
         'relative z-50 flex flex-col bg-white border-r border-slate-200 transition-all duration-300 ease-in-out',
         isExpanded ? 'w-[260px]' : 'w-[80px]'
       )}
-    >
-      {/* Header / Logo */}
-      <div className="flex h-[70px] items-center px-4 border-b border-slate-100 overflow-hidden">
-        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-blue-50">
-          <Image src={logo} alt="Logo" className="h-6 w-auto" />
+
+      {/* Sidebar */}
+      <aside
+        className={cn(
+          'fixed inset-y-0 left-0 z-50 flex flex-col bg-primary text-secondary transition-all duration-300 lg:relative',
+          // Mobile: slide in/out
+          isOpen ? 'translate-x-0' : '-translate-x-full',
+          // Desktop: always visible, just change width
+          'lg:translate-x-0',
+          isOpen ? 'w-64' : 'lg:w-20',
+        )}
+      >
+        {/* Logo - Fixed at top */}
+        <div className="flex h-16 shrink-0 items-center gap-3 px-4 border-b border-sidebar-border">
+          <div className="flex h-10 w-10 invert brightness-0 shrink-0 items-center justify-center rounded-lg">
+            <Image src={logo} alt="Logo" className="h-7 w-5" />
+          </div>
+          <span
+            className={cn(
+              'text-md font-extrabold text-secondary whitespace-nowrap transition-opacity duration-300',
+              isOpen ? 'opacity-100' : 'lg:opacity-0 lg:w-0 lg:overflow-hidden',
+            )}
+          >
+            eTax Facturation RDC
+          </span>
         </div>
         <span
           className={cn(
@@ -69,16 +103,21 @@ export default function Sidebar({ isExpanded }: SidebarProps) {
               pathname === item.href ||
               (item.href !== '/dashboard' && pathname.startsWith(item.href));
 
-            return (
-              <li key={item.href}>
+        {/* Navigation */}
+        <nav className="flex-1 overflow-y-auto px-3 py-4 ">
+          <div className="space-y-4">
+            {navItems.map((item) => {
+              const isActive = pathname === item.href;
+              return (
                 <Link
                   href={item.href}
                   title={!isExpanded ? item.label : undefined}
                   className={cn(
                     'flex items-center gap-3 rounded-lg px-3 py-2.5 transition-all group',
                     isActive
-                      ? 'bg-blue-600 text-white shadow-md shadow-blue-200'
-                      : 'text-slate-600 hover:bg-slate-50 hover:text-blue-600'
+                      ? 'bg-sidebar-accent text-sidebar-accent-foreground'
+                      : 'text-secondary hover:bg-secondary/50 hover:text-primary',
+                    !isOpen && 'lg:justify-center lg:px-2',
                   )}
                 >
                   <item.icon className={cn('h-5 w-5 shrink-0', isActive ? 'text-white' : 'text-slate-500 group-hover:text-blue-600')} />
@@ -97,20 +136,28 @@ export default function Sidebar({ isExpanded }: SidebarProps) {
         </ul>
       </nav>
 
-      {/* Footer / Logout */}
-      <div className="p-3 border-t border-slate-100">
-        <button
-          onClick={logout}
-          title={!isExpanded ? 'Déconnexion' : undefined}
-          className={cn(
-            'flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-red-500 transition-colors hover:bg-red-50',
-            !isExpanded && 'justify-center'
-          )}
-        >
-          <LogOut className="h-5 w-5 shrink-0" />
-          {isExpanded && <span className="truncate">Déconnexion</span>}
-        </button>
-      </div>
-    </aside>
+        {/* Logout - Fixed at bottom */}
+        <div className="shrink-0 border-t border-sidebar-border px-3 py-4">
+          <button
+            onClick={logout}
+            title={!isOpen ? 'Deconnexion' : undefined}
+            className={cn(
+              'flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm  font-extrabold text-secondary/80 transition-colors hover:bg-secondary/50 hover:text-primary',
+              !isOpen && 'lg:justify-center lg:px-2',
+            )}
+          >
+            <LogOut className="h-5 w-5 shrink-0" />
+            <span
+              className={cn(
+                'truncate transition-opacity duration-300',
+                isOpen ? 'opacity-100' : 'lg:hidden',
+              )}
+            >
+              Deconnexion
+            </span>
+          </button>
+        </div>
+      </aside>
+    </>
   );
 }
