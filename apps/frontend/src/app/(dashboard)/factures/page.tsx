@@ -4,6 +4,7 @@ import { useState, useRef } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import logo from '@/assets/eTax.svg';
 import {
   Table,
   TableBody,
@@ -49,6 +50,7 @@ import {
 import { clients } from '@/types/clients';
 import { products } from '@/types/produit';
 import { cn } from '@/lib/utils';
+import Image from 'next/image';
 
 type FilterStatus = 'all' | InvoiceStatus;
 
@@ -282,8 +284,10 @@ export default function FacturesPage() {
             * { margin: 0; padding: 0; box-sizing: border-box; }
             body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 40px; color: #333; }
             .header { display: flex; justify-content: space-between; margin-bottom: 40px; }
-            .company { font-size: 24px; font-weight: bold; color: #1e3a5f; }
-            .invoice-title { font-size: 32px; color: #1e3a5f; text-align: right; }
+            .header-image { display: flex; gap: 10px; align-items: center;}
+            .title { color: #145ca1}
+            .company { font-size: 24px; font-weight: bold; color: #145ca1; }
+            .invoice-title { font-size: 32px; color: #145ca1; text-align: right; }
             .invoice-number { color: #666; text-align: right; margin-top: 5px; }
             .section { margin-bottom: 30px; }
             .section-title { font-size: 14px; color: #666; margin-bottom: 10px; text-transform: uppercase; }
@@ -291,11 +295,11 @@ export default function FacturesPage() {
             .client-name { font-size: 18px; font-weight: 600; margin-bottom: 5px; }
             .client-detail { color: #666; margin-bottom: 3px; }
             table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-            th { background: #1e3a5f; color: white; padding: 12px; text-align: left; }
+            th { background: #145ca1; color: white; padding: 12px; text-align: left; }
             td { padding: 12px; border-bottom: 1px solid #eee; }
             .text-center { text-align: center; }
             .text-right { text-align: right; }
-            .totals { margin-top: 20px; border-top: 2px solid #1e3a5f; padding-top: 15px; }
+            .totals { margin-top: 20px; border-top: 2px solid #145ca1; padding-top: 15px; }
             .total-row { display: flex; justify-content: space-between; padding: 8px 0; }
             .total-row.final { font-weight: bold; font-size: 18px; border-top: 1px solid #eee; padding-top: 15px; margin-top: 10px; }
             .payment-info { margin-top: 20px; padding: 15px; background: #e8f4f8; border-radius: 8px; }
@@ -309,9 +313,11 @@ export default function FacturesPage() {
         </head>
         <body>
           <div class="header">
-            <div>
-              <div class="company">Systeme Facturation</div>
-              <p style="color: #666; margin-top: 5px;">Votre partenaire de confiance</p>
+            <div class="header-image">
+              <img src="/logo_eTax.png" alt="logo" width="50px" height="80px" />
+              <h2 class="title">
+                      eTax Solution RDC
+              </h2>
             </div>
             <div>
               <div class="invoice-title">FACTURE</div>
@@ -411,7 +417,7 @@ export default function FacturesPage() {
               Nouvelle Facture
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-w-8xl max-h-[95vh] overflow-y-auto">
+          <DialogContent className="max-w-3xl max-h-[95vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle>
                 {editingInvoice ? 'Modifier la facture' : 'Nouvelle facture'}
@@ -503,7 +509,17 @@ export default function FacturesPage() {
                     </Field>
                     <Field>
                       <FieldLabel>TVA (%)</FieldLabel>
-                      <Select
+
+                      <Input
+                        disabled
+                        type="number"
+                        min="1"
+                        value="16"
+                        onChange={(e) =>
+                          setNewItem({ ...newItem, tvaRate: e.target.value })
+                        }
+                      />
+                      {/* <Select
                         value={newItem.tvaRate}
                         onValueChange={(value) =>
                           setNewItem({ ...newItem, tvaRate: value })
@@ -518,7 +534,7 @@ export default function FacturesPage() {
                           <SelectItem value="10">10%</SelectItem>
                           <SelectItem value="20">20%</SelectItem>
                         </SelectContent>
-                      </Select>
+                      </Select> */}
                     </Field>
                     <Button type="button" onClick={addItemToForm}>
                       <Plus className="h-4 w-4 mr-1" /> Ajouter
@@ -788,9 +804,9 @@ export default function FacturesPage() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="10">10 lignes par page</SelectItem>
-                  <SelectItem value="20">20 lignes par page</SelectItem>
-                  <SelectItem value="50">50 lignes par page</SelectItem>
+                  <SelectItem value="10">10 lignes</SelectItem>
+                  <SelectItem value="20">20 lignes</SelectItem>
+                  <SelectItem value="50">50 lignes</SelectItem>
                 </SelectContent>
               </Select>
               <Button
@@ -952,7 +968,7 @@ export default function FacturesPage() {
 
       {/* Print Preview Dialog */}
       <Dialog open={isPrintDialogOpen} onOpenChange={setIsPrintDialogOpen}>
-        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto ">
+        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Apercu de la facture</DialogTitle>
           </DialogHeader>
@@ -965,12 +981,12 @@ export default function FacturesPage() {
               {/* Invoice Header */}
               <div className="flex justify-between items-start">
                 <div>
-                  <h2 className="text-xl font-bold text-primary">
-                    Systeme Facturation
-                  </h2>
-                  <p className="text-sm text-muted-foreground">
-                    Votre partenaire de confiance
-                  </p>
+                  <div className="flex items-center gap-2">
+                    <Image src={logo} alt="logo" width={40} height={70} />
+                    <h2 className="text-xl font-bold text-primary">
+                      eTax Solution RDC
+                    </h2>
+                  </div>
                 </div>
                 <div className="text-right">
                   <h3 className="text-2xl font-bold">FACTURE</h3>
