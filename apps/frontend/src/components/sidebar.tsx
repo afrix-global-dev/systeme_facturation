@@ -23,24 +23,12 @@ import {
 const navItems = [
   { href: '/', label: 'Dashboard', icon: Home },
   { href: '/clients', label: 'Clients', icon: Users },
-  { href: '/fournisseurs', label: 'Fournisseurs', icon: IdCardLanyard },
+  { href: '/fournisseur', label: 'Fournisseurs', icon: IdCardLanyard },
   { href: '/produit', label: 'Produits', icon: Package },
-  { href: '/dashboard/factures', label: 'Factures', icon: FileText },
-  {
-    href: '/payements',
-    label: 'Payements',
-    icon: ArrowLeftRight,
-  },
-  {
-    href: '/dashboard/stock',
-    label: 'stock',
-    icon: CirclePile,
-  },
-  {
-    href: '/dashboard/utilisateurs',
-    label: 'Utilisateurs',
-    icon: UsersRound,
-  },
+  { href: '/factures', label: 'Factures', icon: FileText },
+  { href: '/payements', label: 'Payements', icon: ArrowLeftRight },
+  { href: '/dashboard/stock', label: 'Stock', icon: CirclePile },
+  { href: '/dashboard/utilisateurs', label: 'Utilisateurs', icon: UsersRound },
   { href: '/dashboard/rapports', label: 'Rapport', icon: BarChart3 },
   { href: '/dashboard/parametres', label: 'Parametres', icon: Settings },
 ];
@@ -56,108 +44,46 @@ export default function Sidebar({ isExpanded }: SidebarProps) {
   return (
     <aside
       className={cn(
-        'relative z-50 flex flex-col bg-white border-r border-slate-200 transition-all duration-300 ease-in-out',
-        isExpanded ? 'w-[260px]' : 'w-[80px]'
+        'flex flex-col bg-white border-r transition-all duration-300',
+        isExpanded ? 'w-[260px]' : 'w-[80px]',
       )}
-
-      {/* Sidebar */}
-      <aside
-        className={cn(
-          'fixed inset-y-0 left-0 z-50 flex flex-col bg-primary text-secondary transition-all duration-300 lg:relative',
-          // Mobile: slide in/out
-          isOpen ? 'translate-x-0' : '-translate-x-full',
-          // Desktop: always visible, just change width
-          'lg:translate-x-0',
-          isOpen ? 'w-64' : 'lg:w-20',
-        )}
-      >
-        {/* Logo - Fixed at top */}
-        <div className="flex h-16 shrink-0 items-center gap-3 px-4 border-b border-sidebar-border">
-          <div className="flex h-10 w-10 invert brightness-0 shrink-0 items-center justify-center rounded-lg">
-            <Image src={logo} alt="Logo" className="h-7 w-5" />
-          </div>
-          <span
-            className={cn(
-              'text-md font-extrabold text-secondary whitespace-nowrap transition-opacity duration-300',
-              isOpen ? 'opacity-100' : 'lg:opacity-0 lg:w-0 lg:overflow-hidden',
-            )}
-          >
-            eTax Facturation RDC
-          </span>
-        </div>
-        <span
-          className={cn(
-            'ml-3 font-bold text-slate-800 whitespace-nowrap transition-all duration-300',
-            isExpanded ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10 pointer-events-none'
-          )}
-        >
-          eTax Facturation
-        </span>
+    >
+      {/* Logo */}
+      <div className="flex items-center gap-3 p-4 border-b">
+        <Image src={logo} alt="Logo" className="h-7 w-5" />
+        {isExpanded && <span className="font-bold">eTax</span>}
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 overflow-y-auto px-3 py-4 custom-scrollbar">
-        <ul className="space-y-1">
-          {navItems.map((item) => {
-            const isActive =
-              pathname === item.href ||
-              (item.href !== '/dashboard' && pathname.startsWith(item.href));
+      <nav className="flex-1 px-3 py-4">
+        {navItems.map((item) => {
+          const isActive = pathname === item.href;
 
-        {/* Navigation */}
-        <nav className="flex-1 overflow-y-auto px-3 py-4 ">
-          <div className="space-y-4">
-            {navItems.map((item) => {
-              const isActive = pathname === item.href;
-              return (
-                <Link
-                  href={item.href}
-                  title={!isExpanded ? item.label : undefined}
-                  className={cn(
-                    'flex items-center gap-3 rounded-lg px-3 py-2.5 transition-all group',
-                    isActive
-                      ? 'bg-sidebar-accent text-sidebar-accent-foreground'
-                      : 'text-secondary hover:bg-secondary/50 hover:text-primary',
-                    !isOpen && 'lg:justify-center lg:px-2',
-                  )}
-                >
-                  <item.icon className={cn('h-5 w-5 shrink-0', isActive ? 'text-white' : 'text-slate-500 group-hover:text-blue-600')} />
-                  <span
-                    className={cn(
-                      'text-sm font-medium transition-all duration-300 truncate',
-                      isExpanded ? 'opacity-100' : 'opacity-0 w-0'
-                    )}
-                  >
-                    {item.label}
-                  </span>
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
-      </nav>
-
-        {/* Logout - Fixed at bottom */}
-        <div className="shrink-0 border-t border-sidebar-border px-3 py-4">
-          <button
-            onClick={logout}
-            title={!isOpen ? 'Deconnexion' : undefined}
-            className={cn(
-              'flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm  font-extrabold text-secondary/80 transition-colors hover:bg-secondary/50 hover:text-primary',
-              !isOpen && 'lg:justify-center lg:px-2',
-            )}
-          >
-            <LogOut className="h-5 w-5 shrink-0" />
-            <span
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
               className={cn(
-                'truncate transition-opacity duration-300',
-                isOpen ? 'opacity-100' : 'lg:hidden',
+                'flex items-center gap-3 p-2 rounded-lg',
+                isActive
+                  ? 'bg-blue-500 text-white'
+                  : 'text-gray-600 hover:bg-gray-100',
               )}
             >
-              Deconnexion
-            </span>
-          </button>
-        </div>
-      </aside>
-    </>
+              <item.icon className="h-5 w-5" />
+              {isExpanded && <span>{item.label}</span>}
+            </Link>
+          );
+        })}
+      </nav>
+
+      {/* Logout */}
+      <div className="p-4 border-t">
+        <button onClick={logout} className="flex items-center gap-3 w-full">
+          <LogOut className="h-5 w-5" />
+          {isExpanded && <span>Déconnexion</span>}
+        </button>
+      </div>
+    </aside>
   );
 }
