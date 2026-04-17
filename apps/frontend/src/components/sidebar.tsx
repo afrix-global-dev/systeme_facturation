@@ -46,22 +46,18 @@ const navItems = [
 ];
 
 interface SidebarProps {
-  isOpen: boolean;
-  setIsOpen: (open: boolean) => void;
+  isExpanded: boolean;
 }
 
-export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
+export default function Sidebar({ isExpanded }: SidebarProps) {
   const pathname = usePathname();
   const { logout } = useAuth();
 
   return (
-    <>
-      {/* Mobile Overlay - only visible on mobile when sidebar is open */}
-      {isOpen && (
-        <div
-          className="fixed inset-0 z-40 bg-black/50 lg:hidden"
-          onClick={() => setIsOpen(false)}
-        />
+    <aside
+      className={cn(
+        'relative z-50 flex flex-col bg-white border-r border-slate-200 transition-all duration-300 ease-in-out',
+        isExpanded ? 'w-[260px]' : 'w-[80px]'
       )}
 
       {/* Sidebar */}
@@ -89,6 +85,23 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
             eTax Facturation RDC
           </span>
         </div>
+        <span
+          className={cn(
+            'ml-3 font-bold text-slate-800 whitespace-nowrap transition-all duration-300',
+            isExpanded ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10 pointer-events-none'
+          )}
+        >
+          eTax Facturation
+        </span>
+      </div>
+
+      {/* Navigation */}
+      <nav className="flex-1 overflow-y-auto px-3 py-4 custom-scrollbar">
+        <ul className="space-y-1">
+          {navItems.map((item) => {
+            const isActive =
+              pathname === item.href ||
+              (item.href !== '/dashboard' && pathname.startsWith(item.href));
 
         {/* Navigation */}
         <nav className="flex-1 overflow-y-auto px-3 py-4 ">
@@ -97,31 +110,31 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
               const isActive = pathname === item.href;
               return (
                 <Link
-                  key={item.href}
                   href={item.href}
-                  title={!isOpen ? item.label : undefined}
+                  title={!isExpanded ? item.label : undefined}
                   className={cn(
-                    'flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors',
+                    'flex items-center gap-3 rounded-lg px-3 py-2.5 transition-all group',
                     isActive
                       ? 'bg-sidebar-accent text-sidebar-accent-foreground'
                       : 'text-secondary hover:bg-secondary/50 hover:text-primary',
                     !isOpen && 'lg:justify-center lg:px-2',
                   )}
                 >
-                  <item.icon className="h-5 w-5 shrink-0" />
+                  <item.icon className={cn('h-5 w-5 shrink-0', isActive ? 'text-white' : 'text-slate-500 group-hover:text-blue-600')} />
                   <span
                     className={cn(
-                      'truncate transition-opacity duration-300',
-                      isOpen ? 'opacity-100' : 'lg:hidden',
+                      'text-sm font-medium transition-all duration-300 truncate',
+                      isExpanded ? 'opacity-100' : 'opacity-0 w-0'
                     )}
                   >
                     {item.label}
                   </span>
                 </Link>
-              );
-            })}
-          </div>
-        </nav>
+              </li>
+            );
+          })}
+        </ul>
+      </nav>
 
         {/* Logout - Fixed at bottom */}
         <div className="shrink-0 border-t border-sidebar-border px-3 py-4">
