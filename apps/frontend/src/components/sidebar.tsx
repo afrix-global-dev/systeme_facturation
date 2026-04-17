@@ -20,10 +20,10 @@ import {
 } from 'lucide-react';
 
 const navItems = [
-  { href: '/dashboard', label: 'Dashboard', icon: Home },
+  { href: '/', label: 'Dashboard', icon: Home },
   { href: '/dashboard/clients', label: 'Clients', icon: Users },
   { href: '/dashboard/factures', label: 'Factures', icon: FileText },
-  { href: '/dashboard/produits', label: 'Produits', icon: Package },
+  { href: '/produit', label: 'Produits', icon: Package },
   {
     href: '/dashboard/approvisionnement',
     label: 'Approvisionnement',
@@ -31,8 +31,8 @@ const navItems = [
   },
   { href: '/dashboard/ventes', label: 'Ventes', icon: ShoppingCart },
   {
-    href: '/dashboard/transactions',
-    label: 'TransactionStock',
+    href: '/payements',
+    label: 'Payements',
     icon: ArrowLeftRight,
   },
   { href: '/dashboard/rapports', label: 'Rapport', icon: BarChart3 },
