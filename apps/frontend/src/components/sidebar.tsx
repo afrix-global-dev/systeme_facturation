@@ -13,27 +13,33 @@ import {
   Package,
   Settings,
   LogOut,
-  ShoppingCart,
-  Truck,
   ArrowLeftRight,
   BarChart3,
+  CirclePile,
+  UsersRound,
+  IdCardLanyard,
 } from 'lucide-react';
 
 const navItems = [
   { href: '/', label: 'Dashboard', icon: Home },
   { href: '/clients', label: 'Clients', icon: Users },
-  { href: '/dashboard/factures', label: 'Factures', icon: FileText },
+  { href: '/fournisseurs', label: 'Fournisseurs', icon: IdCardLanyard },
   { href: '/produit', label: 'Produits', icon: Package },
-  {
-    href: '/dashboard/approvisionnement',
-    label: 'Approvisionnement',
-    icon: Truck,
-  },
-  { href: '/dashboard/ventes', label: 'Ventes', icon: ShoppingCart },
+  { href: '/dashboard/factures', label: 'Factures', icon: FileText },
   {
     href: '/payements',
     label: 'Payements',
     icon: ArrowLeftRight,
+  },
+  {
+    href: '/dashboard/stock',
+    label: 'stock',
+    icon: CirclePile,
+  },
+  {
+    href: '/dashboard/utilisateurs',
+    label: 'Utilisateurs',
+    icon: UsersRound,
   },
   { href: '/dashboard/rapports', label: 'Rapport', icon: BarChart3 },
   { href: '/dashboard/parametres', label: 'Parametres', icon: Settings },
