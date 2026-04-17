@@ -25,12 +25,12 @@ const navItems = [
   { href: '/clients', label: 'Clients', icon: Users },
   { href: '/fournisseur', label: 'Fournisseurs', icon: IdCardLanyard },
   { href: '/produit', label: 'Produits', icon: Package },
-  { href: '/dashboard/factures', label: 'Factures', icon: FileText },
+  { href: '/factures', label: 'Factures', icon: FileText },
   { href: '/payements', label: 'Payements', icon: ArrowLeftRight },
-  { href: '/dashboard/stock', label: 'Stock', icon: CirclePile },
-  { href: '/dashboard/utilisateurs', label: 'Utilisateurs', icon: UsersRound },
-  { href: '/dashboard/rapports', label: 'Rapport', icon: BarChart3 },
-  { href: '/dashboard/parametres', label: 'Parametres', icon: Settings },
+  { href: '/stock', label: 'Stock', icon: CirclePile },
+  { href: '/users', label: 'Utilisateurs', icon: UsersRound },
+  { href: '/rapports', label: 'Rapport', icon: BarChart3 },
+  { href: '/parametres', label: 'Parametres', icon: Settings },
 ];
 
 interface SidebarProps {
