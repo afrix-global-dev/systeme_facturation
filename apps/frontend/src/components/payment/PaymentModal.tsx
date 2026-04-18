@@ -56,7 +56,7 @@ const PaymentModal: React.FC<Props> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-secondary-foreground/25  bg-opacity-50 flex justify-center items-center">
+    <div className="fixed inset-0 bg-secondary-foreground/10   bg-opacity-50 flex justify-center items-center supports-backdrop-filter:backdrop-blur-xs data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0">
       <div className="bg-white p-6 rounded w-full md:w-1/3">
         <h2 className="text-lg mb-4">
           {initialData ? 'Modifier' : 'Nouveau paiement'}

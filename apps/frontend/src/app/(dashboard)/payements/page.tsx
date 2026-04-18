@@ -73,7 +73,7 @@ const PaymentPage = () => {
         initialData={selectedPayment}
       />
       {deletePaymentId && (
-        <div className="fixed inset-0 bg-secondary-foreground/25  bg-opacity-50 flex items-center justify-center z-5">
+        <div className="fixed inset-0 bg-secondary-foreground/10  bg-opacity-50 flex items-center justify-center supports-backdrop-filter:backdrop-blur-xs data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0">
           <div className="bg-secondary p-6 rounded shadow  ">
             <p>Êtes-vous sûr de vouloir supprimer ce paiement ?</p>
             <div className="flex justify-end space-x-2 mt-4">
