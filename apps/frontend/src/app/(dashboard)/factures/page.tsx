@@ -34,6 +34,7 @@ import {
   ChevronRight,
   Printer,
   Eye,
+  BadgePlus,
   X,
   Loader2,
   FileText,
@@ -319,8 +320,8 @@ export default function FacturesPage() {
         </h1>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
-            <Button onClick={() => setIsDialogOpen(true)} className="shadow-md">
-              <Plus className="mr-2 h-4 w-4" />
+            <Button onClick={() => handleOpenDialog()}>
+              <BadgePlus /
               Nouvelle Facture
             </Button>
           </DialogTrigger>

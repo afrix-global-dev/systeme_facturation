@@ -126,11 +126,8 @@ export default function ClientsPage() {
         <h1 className="text-2xl font-bold text-foreground">Clients</h1>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
-            <Button
-              onClick={() => handleOpenDialog()}
-              className="bg-primary text-primary-foreground hover:bg-primary/80"
-            >
-              <Plus className="mr-2 h-4 w-4" />
+            <Button onClick={() => handleOpenDialog()}>
+              <Plus className="mr-2 h-4 w-4 " />
               Nouveau Client
             </Button>
           </DialogTrigger>
