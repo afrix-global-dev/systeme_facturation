@@ -37,6 +37,7 @@ import {
   Trash2,
   Printer,
   Eye,
+  BadgePlus,
   X,
 } from 'lucide-react';
 import {
@@ -413,7 +414,7 @@ export default function FacturesPage() {
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
             <Button onClick={() => handleOpenDialog()}>
-              <Plus className="mr-2 h-4 w-4" />
+              <BadgePlus />
               Nouvelle Facture
             </Button>
           </DialogTrigger>

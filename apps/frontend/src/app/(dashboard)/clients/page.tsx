@@ -109,7 +109,7 @@ export default function ClientsPage() {
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
             <Button onClick={() => handleOpenDialog()}>
-              <Plus className="mr-2 h-4 w-4" />
+              <Plus className="mr-2 h-4 w-4 " />
               Nouveau Client
             </Button>
           </DialogTrigger>
