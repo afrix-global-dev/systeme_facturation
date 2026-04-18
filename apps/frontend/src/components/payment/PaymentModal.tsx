@@ -1,6 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import { Payment, PaymentMethod } from '@/lib/payement.type';
+import { Button } from '../ui/button';
 
 interface Props {
   isOpen: boolean;
@@ -29,10 +30,21 @@ const PaymentModal: React.FC<Props> = ({
     if (initialData) setForm(initialData);
   }, [initialData]);
 
+  // const handleChange = (
+  //   e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  // ) => {
+  //   setForm({ ...form, [e.target.name]: e.target.value });
+  //   const { name, value } = e.target;
+
+  //   setForm((prev) => ({
+  //     ...prev,
+  //     [name]: name === 'amount' ? Number(value) : value,
+  //   }));
+  // };
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
     const { name, value } = e.target;
 
     setForm((prev) => ({
@@ -44,58 +56,85 @@ const PaymentModal: React.FC<Props> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-30 flex justify-center items-center">
-      <div className="bg-white p-6 rounded w-96">
+    <div className="fixed inset-0 bg-secondary-foreground/25  bg-opacity-50 flex justify-center items-center">
+      <div className="bg-white p-6 rounded w-full md:w-1/3">
         <h2 className="text-lg mb-4">
           {initialData ? 'Modifier' : 'Nouveau paiement'}
         </h2>
 
-        <input
-          name="amount"
-          type="number"
-          placeholder="Montant"
-          value={form.amount}
-          onChange={handleChange}
-          className="w-full mb-2 p-2 border"
-        />
-
-        <select
-          name="method"
-          value={form.method}
-          onChange={handleChange}
-          className="w-full mb-2 p-2 border"
-        >
-          {Object.values(PaymentMethod).map((m) => (
-            <option key={m} value={m}>
-              {m}
-            </option>
-          ))}
-        </select>
-
-        <input
-          name="reference"
-          placeholder="Référence"
-          value={form.reference}
-          onChange={handleChange}
-          className="w-full mb-2 p-2 border"
-        />
-
-        <input
-          name="date"
-          type="date"
-          value={form.date}
-          onChange={handleChange}
-          className="w-full mb-4 p-2 border"
-        />
-
-        <div className="flex justify-end space-x-2">
-          <button onClick={onClose}>Annuler</button>
-          <button
-            onClick={() => onSubmit(form)}
-            className="bg-blue-600 text-white px-3 py-1 rounded"
+        <div className="w-full my-b-4 text-secondary-foreground/90">
+          <label htmlFor="invoice">Facture</label>
+          <select
+            name="invoice"
+            value={form.invoice}
+            onChange={handleChange}
+            className="w-full my-2 p-2 border"
           >
+            <option value="" className="bg-primary">
+              Sélectionner une facture
+            </option>
+            <option value="INV001">INV001</option>
+            <option value="INV002">INV002</option>
+          </select>
+        </div>
+
+        <div className="w-full my-b-4 text-secondary-foreground/90">
+          <label htmlFor="amount">Montant</label>
+          <input
+            name="amount"
+            type="number"
+            placeholder="Montant"
+            value={form.amount}
+            onChange={handleChange}
+            className="w-full my-2 p-2 border"
+          />
+        </div>
+
+        <div className="w-full my-b-4 text-secondary-foreground/90">
+          <label htmlFor="method">Méthode de paiement</label>
+          <select
+            name="method"
+            value={form.method}
+            onChange={handleChange}
+            className="w-full my-2 p-2 border"
+          >
+            {Object.values(PaymentMethod).map((m) => (
+              <option key={m} value={m}>
+                {m}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="w-full my-b-4 text-secondary-foreground/90">
+          <label htmlFor="reference">Référence du paiement</label>
+          <input
+            name="reference"
+            placeholder="Référence"
+            value={form.reference}
+            onChange={handleChange}
+            className="w-full my-2 p-2 border"
+          />
+        </div>
+
+        <div className="w-full my-b-4 text-secondary-foreground/90">
+          <label htmlFor="date">Date du paiement</label>
+          <input
+            name="date"
+            type="date"
+            value={form.date}
+            onChange={handleChange}
+            className="w-full my-4 p-2 border"
+          />
+        </div>
+
+        <div className="flex justify-end space-x-2 ">
+          <Button variant={'outline'} onClick={onClose}>
+            Annuler
+          </Button>
+          <Button variant={'default'} onClick={() => onSubmit(form)}>
             Enregistrer
-          </button>
+          </Button>
         </div>
       </div>
     </div>

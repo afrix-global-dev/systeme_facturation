@@ -1,6 +1,8 @@
 'use client';
 import React from 'react';
 import { Payment } from '@/lib/payement.type';
+import { Edit, Trash2 } from 'lucide-react';
+import { Button } from '../ui/button';
 
 interface Props {
   payments: Payment[];
@@ -14,6 +16,7 @@ const PaymentTable: React.FC<Props> = ({ payments, onEdit, onDelete }) => {
       <table className="w-full text-left">
         <thead className="border-b">
           <tr>
+            <th className="p-3">Facture</th>
             <th className="p-3">Montant</th>
             <th>Méthode</th>
             <th>Référence</th>
@@ -26,6 +29,7 @@ const PaymentTable: React.FC<Props> = ({ payments, onEdit, onDelete }) => {
         <tbody>
           {payments.map((p) => (
             <tr key={p._id} className="border-b hover:bg-gray-50">
+              <td className="p-3">{p.invoice}</td>
               <td className="p-3">{p.amount} $</td>
               <td>{p.method}</td>
               <td>{p.reference || '-'}</td>
@@ -34,15 +38,17 @@ const PaymentTable: React.FC<Props> = ({ payments, onEdit, onDelete }) => {
 
               <td className="space-x-2">
                 <button onClick={() => onEdit(p)} className="text-blue-500">
-                  ✏️
+                  <Edit className="w-4 h-4" />
                 </button>
 
-                <button
+                <Button
+                  variant={'ghost'}
+                  size={'icon'}
                   onClick={() => onDelete(p._id)}
-                  className="text-red-500"
+                  className="text-red-500 hover:bg-red-100/50 hover:text-none"
                 >
-                  🗑️
-                </button>
+                  <Trash2 className="w-4 h-4" />
+                </Button>
               </td>
             </tr>
           ))}
