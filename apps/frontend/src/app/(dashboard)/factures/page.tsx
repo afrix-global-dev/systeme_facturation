@@ -1,9 +1,23 @@
 'use client';
 
-import { useState, useEffect, type FormEvent } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import { Field, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import {
   Table,
   TableBody,
@@ -12,46 +26,32 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { useAppDispatch, useAppSelector } from '@/hooks/redux';
+import { cn } from '@/lib/utils';
+import { fetchClients } from '@/store/slices/clientSlice';
+import { createInvoice, fetchInvoices } from '@/store/slices/invoiceSlice';
+import { fetchProducts } from '@/store/slices/productSlice';
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
+  InvoiceStatus,
+  getInvoiceStatusColor,
+  getInvoiceStatusLabel,
+  type CreateInvoiceDTO,
+  type Invoice,
+} from '@/types/factures';
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { Field, FieldLabel } from '@/components/ui/field';
-import {
-  Plus,
-  Search,
+  BadgePlus,
   ChevronLeft,
   ChevronRight,
-  Printer,
   Eye,
-  BadgePlus,
-  X,
-  Loader2,
   FileText,
+  Loader2,
   Package,
+  Plus,
+  Printer,
+  Search,
+  X,
 } from 'lucide-react';
-import {
-  type Invoice,
-  InvoiceStatus,
-  getInvoiceStatusLabel,
-  getInvoiceStatusColor,
-  type CreateInvoiceDTO,
-} from '@/types/factures';
-import { cn } from '@/lib/utils';
-import { useAppDispatch, useAppSelector } from '@/hooks/redux';
-import { fetchInvoices, createInvoice } from '@/store/slices/invoiceSlice';
-import { fetchClients } from '@/store/slices/clientSlice';
-import { fetchProducts } from '@/store/slices/productSlice';
+import { useEffect, useState, type FormEvent } from 'react';
 
 type FilterStatus = 'all' | InvoiceStatus;
 
@@ -774,10 +774,10 @@ export default function FacturesPage() {
                 <Printer className="h-10 w-10 text-primary" />
               </div>
             </div>
-            <h3 className="text-xl font-bold">Prêt pour l'impression</h3>
+            <h3 className="text-xl font-bold">Prêt pour l&apos;impression</h3>
             <p className="text-muted-foreground">
               La facture {selectedInvoice?.invoiceNumber} a été générée. Cliquez
-              sur le bouton ci-dessous pour lancer l'impression.
+              sur le bouton ci-dessous pour lancer l&apos;impression.
             </p>
             <div className="flex justify-center gap-3 pt-4">
               <Button
@@ -792,7 +792,7 @@ export default function FacturesPage() {
                   setIsPrintDialogOpen(false);
                 }}
               >
-                Confirmer l'impression
+                Confirmer l&apos;impression
               </Button>
             </div>
           </div>
